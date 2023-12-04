@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace JKFrame
 {
-    using System;
+    using JK.Log;
 #if UNITY_EDITOR
     using UnityEditor;
     [InitializeOnLoad]
@@ -19,11 +17,12 @@ namespace JKFrame
         private static JKFrameRoot Instance;
         public static Transform RootTransform { get; private set; }
         public static JKFrameSetting Setting { get => Instance.FrameSetting; }
-        //框架层面的配置文件
+        // 框架层面的配置文件
         [SerializeField] JKFrameSetting FrameSetting;
+
         private void Awake()
         {
-            if (Instance != null && Instance != this)//防止Editor下的Instance已经存在，并且是自身
+            if (Instance != null && Instance != this) // 防止Editor下的Instance已经存在，并且是自身
             {
                 Destroy(gameObject);
                 return;
@@ -33,6 +32,7 @@ namespace JKFrame
             DontDestroyOnLoad(gameObject);
             Init();
         }
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -40,6 +40,7 @@ namespace JKFrame
         {
             InitSystems();
         }
+
         #region System
         private void InitSystems()
         {
@@ -55,7 +56,6 @@ namespace JKFrame
 #endif
         }
         #endregion
-
         private void OnDisable()
         {
 #if ENABLE_LOG
@@ -64,7 +64,7 @@ namespace JKFrame
         }
         #region Editor
 #if UNITY_EDITOR
-        //编辑器专属事件系统
+        // 编辑器专属事件系统
         public static EventModule EditorEventModule;
         static JKFrameRoot()
         {
@@ -77,11 +77,12 @@ namespace JKFrame
         [InitializeOnLoadMethod]
         public static void InitForEditor()
         {
-            //当前是否要进行播放或准备播放中
+            // 当前是否要进行播放或准备播放中
             if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 return;
             }
+
             if (Instance == null)
             {
                 Instance = GameObject.FindObjectOfType<JKFrameRoot>();
@@ -98,4 +99,7 @@ namespace JKFrame
 #endif
         #endregion
     }
+
 }
+
+
